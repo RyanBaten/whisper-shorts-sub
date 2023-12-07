@@ -2,7 +2,9 @@ from faster_whisper.transcribe import Word
 import re
 
 
-def transcribe_with_timestamps(model, audio, lowercase=False, uppercase=False, remove_punctuation=False):
+def transcribe_with_timestamps(
+    model, audio, lowercase=False, uppercase=False, remove_punctuation=False
+):
     """Transcribes a file's audio into Word objects containing the words and their start and end times.
 
     Args:
@@ -25,6 +27,6 @@ def transcribe_with_timestamps(model, audio, lowercase=False, uppercase=False, r
             if uppercase:
                 text = text.upper()
             if remove_punctuation:
-                text = re.sub(r'[^\w\s]', '', text)
+                text = re.sub(r"[^\w\s]", "", text)
             res.append(Word(word.start, word.end, text, word.probability))
     return res
