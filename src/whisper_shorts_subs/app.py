@@ -8,6 +8,7 @@ import tempfile
 import numpy as np
 import cv2
 import os
+import platform
 
 from PIL import Image, ImageTk
 
@@ -294,6 +295,7 @@ class App(customtkinter.CTk):
         filename = filedialog.asksaveasfilename(
             title="Select an output filename", filetypes=[("mp4 files", "*.mp4")]
         )
+        filename = os.path.splitext(filename)[0] + '.mp4'
         if filename == "":
             return
         try:
@@ -350,7 +352,7 @@ class TranscriptionWorker(threading.Thread):
         self.queue = transcribe_queue
         self.model = model
         self.filename = filename
-        super().__init__()
+        super().__init__(daemon=True)
 
     def run(self):
         """Runs transcription."""
@@ -377,7 +379,7 @@ class ExportWorker(threading.Thread):
         self.input_video = input_video
         self.segments = segments
         self.subtitle_kwargs = subtitle_kwargs
-        super().__init__()
+        super().__init__(daemon=True)
 
     def run(self):
         """Creates video with subtitles."""
@@ -390,7 +392,7 @@ class ExportWorker(threading.Thread):
             **self.subtitle_kwargs,
         )
         self.queue.put("audio")
-        add_movie_audio(self.input_video, processed_video.name, self.filename)
+        add_movie_audio(self.input_video, processed_video.name, os.path.normpath(self.filename))
         os.remove(processed_video.name)
         self.queue.put("done")
 
