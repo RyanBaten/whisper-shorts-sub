@@ -1,39 +1,36 @@
-Python Project Template
-=======================
+Whisper Shorts Subs
+===================
 
-A template to quickstart work on python package development.
+A tool to add captions to mp4 videos. `Watch the video demo`_
 
-Getting Started
----------------
+.. _`Watch the video demo`: https://youtube.com/shorts/dEr7zBn1Uy8
 
-1. If you are developing on linux or mac, run ``make setup`` to set the package name and initial version. If you are developing on windows, alter every reference to python_package_template to your desired package name.
-2. Modify ``setup.cfg`` so it contains the correct metadata for your python package.
-3. It is recommended to develop within a virtual environment or conda environment. Set one up and activate the environment.
-4. Perform an editable install of the package with development dependencies. ``pip install -e .[dev]``
+It uses the whisper-small model to infer what is said in the video and the time stamps at which words are said to reduce the effort involved in making short-form videos.
 
-Features
---------
-
-The package version is single sourced at ``src/<package_name>/VERSION``. All other parts of the template reference this file
-to discover the package version.
-
-Makefile commands to make development easier on linux/mac systems.
-The available commands range from running linting to building source distributions.
-
-Run ``make help`` to see a list of available commands.
-
-The following are tools made available to you under the ``dev`` extra and used by different makefile commands.
-
-.. csv-table::
-
-    Tool,Description,Purpose
-    `black <https://github.com/psf/black>`_,code formatter,keep your code well formatted
-    `pytest <https://docs.pytest.org/en/7.2.x/>`_,unit tests,write checks to run on your package code
-    `ruff <https://github.com/charliermarsh/ruff>`_,linter,automated code analysis that can identify syntax or style errors
+.. image:: assets/screenshot.jpg
 
 
-Limitations
------------
+Setup
+-----
 
-This template is for standalone packages. It would need some slight modification in ``setup.cfg`` and to
-the structure in src to work for namespace packages.
+Note: upon first run, it will download the whisper-small model (~500MB). On Linux, it will download to ``~/.cache/huggingface/hub``. On Windows, it will download to ``C:\Users\username\.cache\huggingface\hub``
+
+First, clone the repo:
+``git clone https://github.com/RyanBaten/whisper-shorts-sub.git``
+
+Then, pip install:
+``pip install .``
+
+On Linux systems, you will be able to run the entrypoint ``whisper-subs``. This entrypoint is not working out of the box yet on windows.
+
+For Windows and Linux systems, you can use the run script ``python3 scripts/run_app.py``
+
+Using
+-----
+
+This tool only works with mp4 videos at the moment.
+
+- Load your video for transcription by hitting "Transcribe Video" and selecting your file.
+- Edit the transcription in the text box to fix any mistakes.
+- Use the preview box on the left and the sliders to determine how you want your text to show on the video.
+- Hit "Export Video", choose a filename and destination, and your video will be generated.
